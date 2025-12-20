@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+:root {
+  --font-family: 'Orbitron', sans-serif;
+  --color-neon-cyan: #50e3e6;
+  --color-neon-purple: #843dc6;
+  --color-neon-yellow: #dfd924;
+  --bg-dark: #1B1C2D;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-dark);
+  color: #fff;
+  font-family: var(--font-family);
+  overflow: hidden;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game-wrapper {
+  width: 1200px;
+  /* height: 800px; */
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 1000px;
+  /* align-items: flex-start; */
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.7);
+  /* border-radius: 20px; */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(5px);
+}
+
+/* Left Panel for Next Piece */
+.game-right-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.next-piece-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.next-piece-grid {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1px;
+  width: 150px;
+  height: 100px;
+  /* Force square ratio for preview */
+}
+
+/* Board Container & Overlay */
+.board-container {
+  display: flex;
+  position: relative;
+}
+
+.game-over-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  color: red;
+  text-shadow: 0 0 10px red;
+}
+
+.game-over-overlay h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+/* Board specific override since we use inline styles for grid mostly */
+.game-board {
+  border: 5px solid lab(42.18% 70.25 -76.5 / 0.879) !important;
+  box-shadow: 0 0 30px hwb(301 7% 11% / 0.2) !important;
+  background: rgba(10, 10, 10, 0.9) !important;
+}
+
+.game-status {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin-right: 10px;
+}
+
+.display {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  margin: 0 0 20px 0;
+  padding: 20px;
+  border: 4px solid #333;
+  min-height: 30px;
+  width: 100%;
+  border-radius: 20px;
+  color: #999;
+  background: #000;
+  font-family: var(--font-family);
+  font-size: 22px;
+
+  /* Neon text effect */
+  color: #fff;
+  text-shadow: 0 0 5px var(--color-neon-cyan);
+  border-color: var(--color-neon-purple);
+  box-shadow: 0 0 10px var(--color-neon-purple);
+}
+
+.display.game-over {
+  /* Kept for fallback, but overlay is primary now */
+  color: red;
+  border-color: red;
+  text-shadow: 0 0 5px red;
+  box-shadow: 0 0 10px red;
+}
+
+.start-button {
+  box-sizing: border-box;
+  margin: 0 0 20px 0;
+  padding: 10px;
+  min-height: 30px;
+  width: 200px;
+  height: 80px;
+  border-radius: 20px;
+  border: none;
+  color: white;
+  background: #333;
+  font-family: var(--font-family);
+  font-size: 22px;
+  outline: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, var(--color-neon-purple), var(--color-neon-cyan));
+  box-shadow: 0 0 10px rgba(132, 61, 198, 0.5);
+  transition: all 0.1s;
+}
+
+.start-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(80, 227, 230, 0.8);
+}
+
+/* Landing/Merge Effect */
+@keyframes land {
+  0% {
+    transform: scale(1.2);
+    filter: brightness(2);
+  }
+
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.cell.merged {
+  animation: land 0.1s ease-out;
+  z-index: 10;
+}
