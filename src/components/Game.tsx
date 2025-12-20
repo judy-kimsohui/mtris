@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 // 커스텀 훅들: 게임 상태/로직을 역할별로 분리해 둔 것
 import { useStage } from '../hooks/useStage';         // 보드(stage) 업데이트, 줄 삭제, 점수 증가량 계산
@@ -17,6 +17,7 @@ import NextPiece from './NextPiece';
 
 // 타이틀 이미지
 import titleImg from '../assets/MP-TETRIS-Title.png';
+import tetrisBgm from '../assets/tetrisbgm.mp3';
 
 const Game: React.FC = () => {
     // 게임 영역 포커스용 ref (키보드 입력을 바로 받기 위함)
@@ -64,6 +65,7 @@ const Game: React.FC = () => {
         stageRef.current = stage;
     }, [stage]);
 
+    const audioRef = useRef<HTMLAudioElement | null>(null);
 
 
     /**
@@ -112,7 +114,26 @@ const Game: React.FC = () => {
         if (gameAreaRef.current) {
             gameAreaRef.current.focus();
         }
+
+        // audio
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        audio.pause();
+        audio.currentTime = 0;
+        audio.volume = 0.5;
+        audio.play();
     };
+
+
+    const overGame = () => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        audio.pause();
+        audio.currentTime = 0;
+    } 
+
 
     /**
      * 자동/수동 드롭(한 칸 아래로 내리기) 로직
@@ -138,6 +159,7 @@ const Game: React.FC = () => {
             if (p.pos.y < 1) {
             setGameOver(true);
             setDropTime(null);
+            overGame();
             return; // ★ 중요: 게임오버면 collided:true로 merge하지 않음
             }
 
@@ -225,6 +247,10 @@ const Game: React.FC = () => {
      */
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+            {/* 오디오 */}
+            <audio ref={audioRef} src={tetrisBgm} loop />
+
             <img src={titleImg} alt="Tetris Title" style={{ width: '700px' }} />
             <div style={{ height: '50px' }} />
 
