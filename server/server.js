@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
@@ -100,6 +101,12 @@ app.get('/api/ranks', (req, res) => {
 // POST /api/ranks - Upsert Score
 app.post('/api/ranks', (req, res) => {
     const { nickname, score } = req.body;
+    const clientSecret = req.headers['x-ranking-secret'];
+
+    if (clientSecret !== process.env.RANKING_SECRET) {
+        res.status(403).json({ error: "Unauthorized: Invalid or missing secret key" });
+        return;
+    }
 
     if (!nickname || score === undefined) {
         res.status(400).json({ error: "Nickname and score are required" });

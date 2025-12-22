@@ -457,7 +457,10 @@ const Game: React.FC = () => {
                                         if (nickname) {
                                             fetch('/api/ranks', {
                                                 method: 'POST',
-                                                headers: { 'Content-Type': 'application/json' },
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'x-ranking-secret': import.meta.env.VITE_RANKING_SECRET
+                                                },
                                                 body: JSON.stringify({ nickname, score }),
                                             })
                                                 .then(res => res.json())
