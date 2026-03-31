@@ -1,6 +1,10 @@
 # mtris
 kyeongbuk science highschool - math tetris (2025, 32nd)
 
+
+https://github.com/user-attachments/assets/3f86612d-1a38-4f82-9ed6-02bc392989be
+
+
 ### 게임 플레이
 - https://mtris.site/ (shut down now)
 - 합이 60 이상인 열만 블럭을 깰 수 있습니다. 최고 점수를 갱신해보세요!
